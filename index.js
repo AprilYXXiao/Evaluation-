@@ -23,7 +23,7 @@ const getRegion = (arr) => {
     }
     return regionList;
 };
-
+// console.log(getRegion(data));
 
 // count sales sum for each region
 const getSum = (arr, region) => {
@@ -80,25 +80,25 @@ let html = createRows(data);
 row.innerHTML = html;
 
 //question 2
-// const filter = document.querySelector(".filter");
-// let htmlFilter = createRows(data);
-// filter.innerHTML = htmlFilter;
 
-const createDropList = (arr) => {
-    let tmpRegion = '';
-    let regionList = getRegion(arr);
-    
+const createRegionDrop = (arr) => {
+    let tmp = '';
+    tmp += `<option>ALL</option>`;
+    let regionList = getRegion(arr);   
     regionList.forEach((ele) => {
-        tmpRegion += `<option>${ele}</option>`;
+        tmp += `<option>${ele}</option>`;
     })
-    return tmpRegion;
+    return tmp;
 }
 
-// let Drop = querySelector('#regionDrop');
-// let regionHTML = createDropList(data);
-// Drop.innerHTML = regionHTML; 
-
-
+const createModelDrop = (arr) => {
+    let tmp = '';
+    let modelList = getModel(arr);   
+    modelList.forEach((ele) => {
+        tmp += `<option>${ele}</option>`;
+    })
+    return tmp;
+}
 
 const getModel = (arr) => {
     let modelList = [];
@@ -112,20 +112,58 @@ const getModel = (arr) => {
 // console.log(getModel(data));
 
 
-const filter = document.querySelector("#test");
-// let table2 = createRows(data);
-filter.innerHTML = html;
 
-// let dropdown = document.querySelector("#regionDrop");
-const setUpEvent = () => {
-    let regionDrop = document.querySelector("#regionDrop");
-    let modelDrop = document.querySelector("#modelDrop");
-    regionDrop.addEventListener('change', event => {
-        dropdown.value = event.target.value;
-    });
-    modelDrop.values.addEventListener('change', event => {
-        modelDrop.value = event.target.value;
-    });
-}
 
-setUpEvent();
+const reginDrop = document.querySelector("#regionDrop");
+const regionDropHTML = createRegionDrop(data);
+reginDrop.innerHTML = regionDropHTML;
+
+const modelDrop = document.querySelector("#modelDrop");
+const modelDropHTML = createModelDrop(data);
+modelDrop.innerHTML = modelDropHTML;
+
+
+const table2 = document.querySelector("#test");
+table2.innerHTML = html;
+
+// const setUpEvent = (arr) => {
+//     let regions = document.querySelector('#regionDrop');
+//     let models = document.querySelector('#modelDrop');
+//     const filter = document.querySelector("#test");
+//     regions.addEventListener('change', event => {
+//         if (event.target.value == "ALL") {
+            
+//         } else if (){
+
+//         }
+//         view.domElements.values.value = event.target.value;
+//     });
+//     models.addEventListener('change', event => {
+//         view.domElements.keys.value = event.target.value;
+//     });
+// }
+
+function filterTable() {
+    // Variables
+    let dropdown, table, rows, cells, country, filter;
+    dropdown = document.querySelector("#regionDrop");
+    table = document.querySelector("#test");
+    rows = table.getElementsByTagName("tr");
+    filter = dropdown.value;
+    // Loops through rows and hides those with countries that don't match the filter
+    for (let row of rows) { // `for...of` loops through the NodeList
+      cells = row.getElementsByTagName("td");
+      country = cells[1] || null; // gets the 2nd `td` or nothing
+      // if the filter is set to 'All', or this is the header row, or 2nd `td` text matches filter
+      if (filter === "ALL" || !country || (filter === country.textContent)) {
+        row.style.display = ""; // shows this row
+        console.log(filter);
+      }
+      else {
+        row.style.display = "none"; // hides this row
+      }
+    }
+
+
+  }
+  filterTable();
