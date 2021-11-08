@@ -23,47 +23,7 @@ const getRegion = (arr) => {
     }
     return regionList;
 };
-// console.log(getRegion(data));
 
-// const addRowtoData = (arr) => {
-//     let regionList = getRegion(arr);
-//     let sumRecord = {};
-//     let sumUS = getSum(arr,regionList[0]);
-//     let sumEU = getSum(arr,regionList[1]);
-//     let sumCS = getSum(arr,regionList[2]);
-
-//     for (let i = 0; i < arr.length; i++) {
-//         if (i == 0 || arr[i].region !== arr[i - 1].region) {
-//             arr.push({region: arr[i].region, model: 'Sum', sales: sum});
-//         }
-//     }
-//     return arr;
-// }
-// console.log(addSuntoData(arr));
-
-// const createRows = (arr, region) => {
-//     let tmp = '';
-
-//     let sum = getSum(arr, region);
-//     tmp += ` 
-//             <tr>
-//             <td>${region}</td>
-//             <td> SUM </td>
-//             <td>${sum}</td>
-//         </tr>`;
-//     arr.forEach((ele) => {
-//         if (ele.region === region) {
-//             tmp += ` 
-//             <tr>
-//             <td>${ele.region}</td>
-//             <td> ${ele.model} </td>
-//             <td>${ele.sales}</td>
-//         </tr>`;
-//         }
-       
-//       });
-//     return tmp;
-// };
 
 // count sales sum for each region
 const getSum = (arr, region) => {
@@ -75,16 +35,6 @@ const getSum = (arr, region) => {
     })
     return amount;
 };
-
-// const row = document.querySelector(".records");
-// let regionList = getRegion(data);
-// regionList.forEach((ele) => {
-//     const htmlRocords = createRows(data, ele);
-//     row.innerHTML = htmlRocords;
-// });
-// let test = 'US';
-// const htmlRocords = createRows(data, test);
-// row.innerHTML = htmlRocords;
 
 
 const createRows = (arr) => {
@@ -128,6 +78,54 @@ const row = document.querySelector(".records");
 
 let html = createRows(data);
 row.innerHTML = html;
-// let test = 'US';
-// const htmlRocords = createRows(data, test);
-// row.innerHTML = htmlRocords;
+
+//question 2
+// const filter = document.querySelector(".filter");
+// let htmlFilter = createRows(data);
+// filter.innerHTML = htmlFilter;
+
+const createDropList = (arr) => {
+    let tmpRegion = '';
+    let regionList = getRegion(arr);
+    
+    regionList.forEach((ele) => {
+        tmpRegion += `<option>${ele}</option>`;
+    })
+    return tmpRegion;
+}
+
+// let Drop = querySelector('#regionDrop');
+// let regionHTML = createDropList(data);
+// Drop.innerHTML = regionHTML; 
+
+
+
+const getModel = (arr) => {
+    let modelList = [];
+    arr.forEach((ele) => {
+        
+            modelList.push(ele.model);
+    })
+    let uniqueChars = [...new Set(modelList)];
+    return uniqueChars;
+}
+// console.log(getModel(data));
+
+
+const filter = document.querySelector("#test");
+// let table2 = createRows(data);
+filter.innerHTML = html;
+
+// let dropdown = document.querySelector("#regionDrop");
+const setUpEvent = () => {
+    let regionDrop = document.querySelector("#regionDrop");
+    let modelDrop = document.querySelector("#modelDrop");
+    regionDrop.addEventListener('change', event => {
+        dropdown.value = event.target.value;
+    });
+    modelDrop.values.addEventListener('change', event => {
+        modelDrop.value = event.target.value;
+    });
+}
+
+setUpEvent();
